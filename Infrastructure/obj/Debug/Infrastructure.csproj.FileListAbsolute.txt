@@ -1,0 +1,5 @@
+F:\程序\SimpleFramework\Infrastructure\bin\Debug\Infrastructure.dll
+F:\程序\SimpleFramework\Infrastructure\bin\Debug\Infrastructure.pdb
+F:\程序\SimpleFramework\Infrastructure\obj\Debug\Infrastructure.csprojResolveAssemblyReference.cache
+F:\程序\SimpleFramework\Infrastructure\obj\Debug\Infrastructure.dll
+F:\程序\SimpleFramework\Infrastructure\obj\Debug\Infrastructure.pdb

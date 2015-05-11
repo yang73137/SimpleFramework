@@ -1,0 +1,7 @@
+F:\程序\SimpleFramework\Infrastructure.Test\bin\Debug\Infrastructure.Test.dll
+F:\程序\SimpleFramework\Infrastructure.Test\bin\Debug\Infrastructure.Test.pdb
+F:\程序\SimpleFramework\Infrastructure.Test\bin\Debug\Infrastructure.dll
+F:\程序\SimpleFramework\Infrastructure.Test\bin\Debug\Infrastructure.pdb
+F:\程序\SimpleFramework\Infrastructure.Test\obj\Debug\Infrastructure.Test.csprojResolveAssemblyReference.cache
+F:\程序\SimpleFramework\Infrastructure.Test\obj\Debug\Infrastructure.Test.dll
+F:\程序\SimpleFramework\Infrastructure.Test\obj\Debug\Infrastructure.Test.pdb

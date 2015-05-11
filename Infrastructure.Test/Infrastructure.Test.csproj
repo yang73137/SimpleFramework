@@ -50,7 +50,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Extension\EnumDescriptionExtensionTest.cs" />
+    <Compile Include="Extension\EnumExtensionTest.cs" />
     <Compile Include="Helper\GZipHelperTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

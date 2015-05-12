@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="Extension\EnumExtension.cs" />
     <Compile Include="Helper\GZipHelper.cs" />
+    <Compile Include="Helper\PropertyHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

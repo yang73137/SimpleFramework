@@ -5,3 +5,10 @@ F:\程序\SimpleFramework\Infrastructure.Test\bin\Debug\Infrastructure.pdb
 F:\程序\SimpleFramework\Infrastructure.Test\obj\Debug\Infrastructure.Test.csprojResolveAssemblyReference.cache
 F:\程序\SimpleFramework\Infrastructure.Test\obj\Debug\Infrastructure.Test.dll
 F:\程序\SimpleFramework\Infrastructure.Test\obj\Debug\Infrastructure.Test.pdb
+D:\GitHub\SimpleFramework\Infrastructure.Test\bin\Debug\Infrastructure.Test.dll
+D:\GitHub\SimpleFramework\Infrastructure.Test\bin\Debug\Infrastructure.Test.pdb
+D:\GitHub\SimpleFramework\Infrastructure.Test\bin\Debug\Infrastructure.dll
+D:\GitHub\SimpleFramework\Infrastructure.Test\bin\Debug\Infrastructure.pdb
+D:\GitHub\SimpleFramework\Infrastructure.Test\obj\Debug\Infrastructure.Test.csprojResolveAssemblyReference.cache
+D:\GitHub\SimpleFramework\Infrastructure.Test\obj\Debug\Infrastructure.Test.dll
+D:\GitHub\SimpleFramework\Infrastructure.Test\obj\Debug\Infrastructure.Test.pdb

@@ -55,6 +55,10 @@ namespace Infrastructure.Test.Helper
 
             [Column("PersonName")]
             public string Name { get; set; }
+
+            public bool Famale { get; set; }
+
+            public Char Sex { get; set; }
         }
 
         [TestMethod]
@@ -132,6 +136,21 @@ namespace Infrastructure.Test.Helper
             var entity = PropertyHelper<Person>.FillEntity(dataRow);
             Assert.AreEqual(DBNull.Value, dataRow["Name"]);
             Assert.AreEqual(null, entity.Name);
+        }
+
+        [TestMethod]
+        public void TestBoolChar()
+        {
+            var dataTable = new DataTable();
+            dataTable.Columns.Add("Famale", typeof(bool));
+            dataTable.Columns.Add("Sex", typeof(char));
+            var dataRow = dataTable.NewRow();
+            dataRow["Famale"] = true;
+            dataRow["Sex"] = 'C';
+
+            var entity = PropertyHelper<Person>.FillEntity(dataRow);
+            Assert.AreEqual(dataRow["Famale"], entity.Famale);
+            Assert.AreEqual(dataRow["Sex"], entity.Sex);
         }
     }
 }

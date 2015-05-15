@@ -43,7 +43,7 @@ namespace Infrastructure.Helper
             GetDelegateDict = new Dictionary<string, Func<T, object>>(propertyCount);
             SetDelegateDict = new Dictionary<string, Action<T, object>>(propertyCount);
 
-            foreach (var property in type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
+            foreach (var property in properties)
             {
                 Func<T, object> getDelegate = null;
                 if (property.GetGetMethod() != null)

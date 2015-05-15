@@ -12,6 +12,43 @@ namespace Infrastructure.Test.Helper
     [TestClass]
     public class PropertyHelperTest
     {
+        [AssemblyInitialize]
+        public static void AssemblyInitialize(TestContext context)
+        {
+            Console.WriteLine("AssemblyInitialize");
+        }
+
+        [ClassInitialize]
+        public static void ClassInitialize(TestContext context)
+        {
+            Console.WriteLine("ClassInitialize");
+        }
+
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            Console.WriteLine("TestInitialize");
+        }
+
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            Console.WriteLine("TestCleanup");
+        }
+
+        [ClassCleanup]
+        public static void ClassCleanup()
+        {
+            Console.WriteLine("ClassCleanup");
+        }
+
+        [AssemblyCleanup]
+        public static void AssemblyCleanup()
+        {
+            Console.WriteLine("AssemblyCleanup");
+        }
+
+
         private class Person
         {
             public int Id { get; set; }
@@ -38,6 +75,7 @@ namespace Infrastructure.Test.Helper
             var person = new Person { Id = 1, Name = "张三" };
             var dataRow = dataTable.NewRow();
             PropertyHelper<Person>.FillDataRow(person, ref dataRow);
+
             Assert.AreEqual(person.Id.ToString(), dataRow["Id"].ToString());
             Assert.AreEqual(person.Name.ToString(), dataRow["Name"].ToString());
 
@@ -46,6 +84,9 @@ namespace Infrastructure.Test.Helper
             PropertyHelper<Person>.FillDataRow(person2, ref dataRow2);
             Assert.AreEqual(person2.Id.ToString(), dataRow2["Id"].ToString());
             Assert.AreEqual(DBNull.Value, dataRow2["Name"]);
+
+            Assert.AreEqual(person.Id, dataRow["Id"]);
+            Assert.AreEqual(person.Name, dataRow["Name"].ToString());
         }
 
         [TestMethod]

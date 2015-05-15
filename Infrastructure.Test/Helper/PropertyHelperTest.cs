@@ -40,6 +40,12 @@ namespace Infrastructure.Test.Helper
             PropertyHelper<Person>.FillDataRow(person, ref dataRow);
             Assert.AreEqual(person.Id.ToString(), dataRow["Id"].ToString());
             Assert.AreEqual(person.Name.ToString(), dataRow["Name"].ToString());
+
+            var person2 = new Person { Id = 2, Name = null };
+            var dataRow2 = dataTable.NewRow();
+            PropertyHelper<Person>.FillDataRow(person2, ref dataRow2);
+            Assert.AreEqual(person2.Id.ToString(), dataRow2["Id"].ToString());
+            Assert.AreEqual(DBNull.Value, dataRow2["Name"]);
         }
 
         [TestMethod]

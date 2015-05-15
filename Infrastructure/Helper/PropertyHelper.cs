@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -86,6 +87,13 @@ namespace Infrastructure.Helper
             T entity = new T();
             foreach (var column in row.Table.Columns)
             {
+                var value = row[column.ToString()];
+
+                if (value == DBNull.Value)
+                {
+                    continue;
+                }
+
                 SetProperty(entity, column.ToString(), row[column.ToString()]);
             }
             return entity;
@@ -98,7 +106,7 @@ namespace Infrastructure.Helper
                 var columnName = column.ToString();
                 if (GetDelegateDict.ContainsKey(columnName))
                 {
-                    dataRow[columnName] = GetProperty(entity, columnName);
+                    dataRow[columnName] = GetProperty(entity, columnName) ?? DBNull.Value;
                 }
             }
         }

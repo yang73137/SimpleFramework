@@ -53,6 +53,7 @@ namespace Infrastructure.Test.Helper
         {
             public int Id { get; set; }
 
+            [Column("PersonName")]
             public string Name { get; set; }
         }
 
@@ -102,6 +103,35 @@ namespace Infrastructure.Test.Helper
             var entity = PropertyHelper<Person>.FillEntity(dataRow);
             Assert.AreEqual(dataRow["Id"], entity.Id);
             Assert.AreEqual(dataRow["Name"], entity.Name);
+        }
+
+        [TestMethod]
+        public void TestCloumnAttribute()
+        {
+            var dataTable = new DataTable();
+            dataTable.Columns.Add("Id", typeof(int));
+            dataTable.Columns.Add("PersonName", typeof(string));
+            var dataRow = dataTable.NewRow();
+            dataRow["Id"] = 1;
+            dataRow["PersonName"] = "李四";
+
+            var entity = PropertyHelper<Person>.FillEntity(dataRow);
+            Assert.AreEqual(dataRow["Id"], entity.Id);
+            Assert.AreEqual(dataRow["PersonName"], entity.Name);
+        }
+
+        [TestMethod]
+        public void TestDBNull()
+        {
+            var dataTable = new DataTable();
+            dataTable.Columns.Add("Id", typeof(int));
+            dataTable.Columns.Add("Name", typeof(string));
+            var dataRow = dataTable.NewRow();
+            dataRow["Id"] = 1;
+
+            var entity = PropertyHelper<Person>.FillEntity(dataRow);
+            Assert.AreEqual(DBNull.Value, dataRow["Name"]);
+            Assert.AreEqual(null, entity.Name);
         }
     }
 }

@@ -32,31 +32,51 @@ namespace Infrastructure.Helper
         {
         }
 
-        private static readonly Dictionary<string, Func<T, object>> GetDelegateDict = new Dictionary<string, Func<T, object>>();
-        private static readonly Dictionary<string, Action<T, object>> SetDelegateDict = new Dictionary<string, Action<T, object>>();
+        private static readonly Dictionary<string, Func<T, object>> GetDelegateDict;
+        private static readonly Dictionary<string, Action<T, object>> SetDelegateDict;
 
         static PropertyHelper()
         {
             var type = typeof(T);
-            foreach (var property in type.GetProperties(BindingFlags.Public | BindingFlags.Instance))
-            {
-                // p => p.XXX;
-                var getParameter = Expression.Parameter(typeof(T));
-                var getBody = Expression.Convert(Expression.Property(getParameter, property.Name), typeof(object));
-                var getDelegate = Expression.Lambda<Func<T, object>>(getBody, getParameter).Compile();
-                GetDelegateDict.Add(property.Name, getDelegate);
+            var properties = type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+            var propertyCount = properties.Count();
+            GetDelegateDict = new Dictionary<string, Func<T, object>>(propertyCount);
+            SetDelegateDict = new Dictionary<string, Action<T, object>>(propertyCount);
 
-                // (p,v) => p.XXX = v;
-                var setParameter1 = Expression.Parameter(typeof(T));
-                var setParameter2 = Expression.Parameter(typeof(object));
-                var setBody = Expression.Assign(Expression.Property(setParameter1, property.Name), Expression.Convert(setParameter2, property.PropertyType));
-                var setDelegate = Expression.Lambda<Action<T, object>>(setBody, setParameter1, setParameter2).Compile();
-                SetDelegateDict.Add(property.Name, setDelegate);
-                
+            foreach (var property in type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
+            {
+                Func<T, object> getDelegate = null;
+                if (property.GetGetMethod() != null)
+                {
+                    // p => (object)p.XXX;
+                    var getParameter = Expression.Parameter(typeof (T));
+                    var getBody = Expression.Convert(Expression.Property(getParameter, property.Name), typeof (object));
+                    getDelegate = Expression.Lambda<Func<T, object>>(getBody, getParameter).Compile();
+                    GetDelegateDict.Add(property.Name, getDelegate);
+                }
+
+                Action<T, object> setDelegate = null;
+                if (property.GetSetMethod() != null)
+                {
+                    // (p,v) => p.XXX = (object)v;
+                    var setParameter1 = Expression.Parameter(typeof (T));
+                    var setParameter2 = Expression.Parameter(typeof (object));
+                    var setBody = Expression.Assign(Expression.Property(setParameter1, property.Name), Expression.Convert(setParameter2, property.PropertyType));
+                    setDelegate = Expression.Lambda<Action<T, object>>(setBody, setParameter1, setParameter2).Compile();
+                    SetDelegateDict.Add(property.Name, setDelegate);
+                }
+
                 var columnAttribute = property.GetCustomAttribute<Column>();
-                if (columnAttribute != null && columnAttribute.Name != property.Name)
+                if (columnAttribute == null || columnAttribute.Name == property.Name)
+                {
+                    continue;
+                }
+                if (getDelegate != null)
                 {
                     GetDelegateDict.Add(columnAttribute.Name, getDelegate);
+                }
+                if (setDelegate != null)
+                {
                     SetDelegateDict.Add(columnAttribute.Name, setDelegate);
                 }
             }
@@ -81,7 +101,7 @@ namespace Infrastructure.Helper
         {
             if (row == null)
             {
-                return null;
+                return default(T);
             }
 
             T entity = new T();
@@ -101,6 +121,11 @@ namespace Infrastructure.Helper
 
         public static void FillDataRow(T entity, ref DataRow dataRow)
         {
+            if (entity == null)
+            {
+                return;
+            }
+
             foreach (var column in dataRow.Table.Columns)
             {
                 var columnName = column.ToString();

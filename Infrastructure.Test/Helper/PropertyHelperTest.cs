@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Infrastructure.Helper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -59,6 +55,8 @@ namespace Infrastructure.Test.Helper
             public bool Famale { get; set; }
 
             public Char Sex { get; set; }
+
+            public decimal? Money { get; set; }
         }
 
         [TestMethod]
@@ -144,13 +142,16 @@ namespace Infrastructure.Test.Helper
             var dataTable = new DataTable();
             dataTable.Columns.Add("Famale", typeof(bool));
             dataTable.Columns.Add("Sex", typeof(char));
+            dataTable.Columns.Add("Money", typeof(decimal));
             var dataRow = dataTable.NewRow();
             dataRow["Famale"] = true;
             dataRow["Sex"] = 'C';
+            dataRow["Money"] = DBNull.Value;
 
             var entity = PropertyHelper<Person>.FillEntity(dataRow);
             Assert.AreEqual(dataRow["Famale"], entity.Famale);
             Assert.AreEqual(dataRow["Sex"], entity.Sex);
+            Assert.AreEqual(dataRow["Money"], DBNull.Value);
         }
     }
 }

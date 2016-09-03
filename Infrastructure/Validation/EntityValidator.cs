@@ -16,8 +16,6 @@ namespace Infrastructure.Validation
     {
         protected Dictionary<string, FltConfigValidationRuleCollection> RuleDict = new Dictionary<string, FltConfigValidationRuleCollection>();
 
-        public static FltConfigValidator<TEntity> Instance = new FltConfigValidator<TEntity>();
-
         public FltConfigValidator()
         {
             this.AddRulesFromDataAnnotations();

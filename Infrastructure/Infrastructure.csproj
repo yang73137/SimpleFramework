@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -40,9 +41,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extension\EnumExtension.cs" />
+    <Compile Include="Extension\ReflectionExtension.cs" />
+    <Compile Include="Helper\ConvertHelper.cs" />
     <Compile Include="Helper\GZipHelper.cs" />
     <Compile Include="Helper\PropertyHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validation\EntityValidator.cs" />
+    <Compile Include="Validation\ValidationRules\CustomRule.cs" />
+    <Compile Include="Validation\ValidationRules\RangeRule.cs" />
+    <Compile Include="Validation\ValidationRules\RegexRule.cs" />
+    <Compile Include="Validation\ValidationRules\ValidationRule.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

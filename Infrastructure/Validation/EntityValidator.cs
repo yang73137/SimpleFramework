@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
-using Infrastructure.Extension;
-using Infrastructure.Helper;
+using Infrastructure.Descriptor;
 using Infrastructure.Validation.ValidationRules;
 
 namespace Infrastructure.Validation
@@ -15,6 +12,8 @@ namespace Infrastructure.Validation
     public class FltConfigValidator<TEntity> where TEntity : class
     {
         protected Dictionary<string, FltConfigValidationRuleCollection> RuleDict = new Dictionary<string, FltConfigValidationRuleCollection>();
+
+        protected EntityDescriptor<TEntity> EntityDescriptor = EntityDescriptor<TEntity>.Instance;
 
         public FltConfigValidator()
         {
@@ -28,19 +27,19 @@ namespace Infrastructure.Validation
                 return FltConfigValidationResult.Null;
             }
 
-            var propertities = typeof(TEntity).GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            var propertities = EntityDescriptor.PropertyDescriptors;
             foreach (var property in propertities)
             {
                 FltConfigValidationRuleCollection ruleCollection;
-                if (RuleDict.TryGetValue(property.Name, out ruleCollection) && ruleCollection != null)
+                if (RuleDict.TryGetValue(property.PropertyName, out ruleCollection) && ruleCollection != null)
                 {
                     foreach (var rule in ruleCollection)
                     {
-                        var value = ConvertHelper.ChangeType(property.GetValue(entity, null), property.GetPropertyType());
+                        var value = property.GetValue(entity);
                         var isValid = rule.IsValid(value);
                         if (!isValid)
                         {
-                            return new FltConfigValidationResult { MemberName = property.Name, ErrorMessage = rule.ErrorMessage, IsValid = false };
+                            return new FltConfigValidationResult { MemberName = property.PropertyName, ErrorMessage = rule.ErrorMessage, IsValid = false };
                         }
                     }
                 }
@@ -90,15 +89,15 @@ namespace Infrastructure.Validation
 
         private void AddRulesFromDataAnnotations()
         {
-            var propertities = typeof(TEntity).GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            var propertities = EntityDescriptor.PropertyDescriptors;
 
             foreach (var property in propertities)
             {
-                var validationAttributes = property.GetCustomAttributes(typeof(ValidationAttribute), true);
+                var validationAttributes = property.GetAttributes<ValidationAttribute>();
 
-                foreach (var validationAttribute in validationAttributes.OfType<ValidationAttribute>())
+                foreach (var validationAttribute in validationAttributes)
                 {
-                    this.AddRule(property.Name, new CustomRule(validationAttribute.IsValid, validationAttribute.ErrorMessage));
+                    this.AddRule(property.PropertyName, new CustomRule(validationAttribute.IsValid, validationAttribute.ErrorMessage));
                 }
             }
         }

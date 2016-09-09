@@ -56,6 +56,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Descriptor\EntityDescriptorTests.cs" />
     <Compile Include="Extension\EnumExtensionTest.cs" />
     <Compile Include="Helper\GZipHelperTest.cs" />
     <Compile Include="Helper\PropertyHelperTest.cs" />

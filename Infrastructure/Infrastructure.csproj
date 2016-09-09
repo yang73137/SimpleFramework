@@ -40,6 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Descriptor\EntityDescriptor.cs" />
+    <Compile Include="Descriptor\EntityDescriptorFactory.cs" />
+    <Compile Include="Descriptor\IPropertyDescriptor.cs" />
     <Compile Include="Extension\EnumExtension.cs" />
     <Compile Include="Extension\ReflectionExtension.cs" />
     <Compile Include="Helper\ConvertHelper.cs" />
